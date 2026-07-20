@@ -1,0 +1,32 @@
+spring.application.name=MVP-MealFit
+
+# 이 파일은 GitHub에 업로드하지 않는 application.properties의 예시 파일입니다.
+# 아래 공통 설정을 application.properties로 복사해서 사용하세요.
+#
+# 새로운 기능(JWT, OpenAI, OAuth 등)을 구현하면서 필요한 설정이 추가되면
+# application.properties.example에도 예시를 함께 추가하여 팀원들과 공유해주세요.
+
+# JPA (공통 설정)
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# =========================
+# Database (개인 설정 예시)
+# =========================
+# spring.datasource.url=
+# spring.datasource.username=
+# spring.datasource.password=
+
+# =========================
+# JWT (예시)
+# =========================
+# jwt.issuer=
+# jwt.secret=
+
+# =========================
+# OpenAI (예시)
+# =========================
+# openai.api.key=
+# openai.model=gpt-5.5
+
