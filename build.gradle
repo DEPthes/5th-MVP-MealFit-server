@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 
 	// Spring Data JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -27,6 +28,8 @@ dependencies {
 	// Validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// 스프링 서버를 실행 중인 상태에서 코드 수정 시 실시간 반영이 되게 해주는 의존성
 	// 서버를 킨 상태에서 코드 수정 시 서버를 재시작 할 필요가 없습니다.
