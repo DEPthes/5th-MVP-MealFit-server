@@ -9,6 +9,7 @@ public class OcrConfig {
 
     @Bean
     public RestClient restClient() {
+
         return RestClient.builder().build();
     }
 }

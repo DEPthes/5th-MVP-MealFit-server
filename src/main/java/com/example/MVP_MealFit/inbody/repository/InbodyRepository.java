@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InbodyRepository extends JpaRepository<Inbody, Long> {
-
     /**
      *  특정 회원의 가장 최근 인바디 기록을 조회
      *  measuredAt 기준 내림차순 정렬 후 Pageable(PageRequest.of(0, 1))을 통해 1건만 조회

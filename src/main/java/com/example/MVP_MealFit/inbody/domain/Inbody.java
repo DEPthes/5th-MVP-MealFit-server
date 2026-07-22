@@ -1,5 +1,6 @@
 package com.example.MVP_MealFit.inbody.domain;
 
+import com.example.MVP_MealFit.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +47,14 @@ public class Inbody {
     // OCR 원본 이미지 저장 경로
     @Column(name = "image_path", nullable = false, length = 500)
     private String imagePath;
+
+    // 인바디 결과지 업로드 파일 이름
+    @Column(name = "original_filename", nullable = false)
+    private String originalFilename;
+
+    // 인바디 결과지 업로드 파일 크기
+    @Column(name = "file_size", nullable = false)
+    private Long fileSize;
 
     // 판정 기준 상수
     private static final int STALE_DAYS = 14;

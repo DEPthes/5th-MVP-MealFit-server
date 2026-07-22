@@ -1,5 +1,7 @@
 package com.example.MVP_MealFit.inbody.ocr;
 
+import com.example.MVP_MealFit.global.exception.BusinessException;
+import com.example.MVP_MealFit.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;

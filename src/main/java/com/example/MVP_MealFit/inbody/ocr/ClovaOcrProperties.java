@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties(prefix = "clova.ocr")
 public class ClovaOcrProperties {
-
     // CLOVA OCR Invoke URL
     private String invokeUrl;
 
