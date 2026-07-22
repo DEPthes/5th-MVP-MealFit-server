@@ -23,24 +23,10 @@ spring.jpa.properties.hibernate.format_sql=true
 # =========================
 # jwt.issuer=
 # jwt.secret=
-# jwt.expiration=
 
 # =========================
 # OpenAI (예시)
 # =========================
 # openai.api.key=
 # openai.model=gpt-5.5
-
-# ===========================
-# File Upload (예시)
-# ===========================
-# file.allowed-extensions=
-# file.max-size-bytes=
-# file.root-path=
-
-# =========================
-# NAVER CLOVA OCR API (예시)
-# =========================
-clova.ocr.invoke-url=yourInvokeUrl
-clova.ocr.secret-key=yourSecretKey
 
