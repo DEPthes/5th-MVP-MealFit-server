@@ -23,7 +23,6 @@ spring.jpa.properties.hibernate.format_sql=true
 # =========================
 # jwt.issuer=
 # jwt.secret=
-# jwt.expiration=
 
 # =========================
 # OpenAI (예시)
@@ -38,3 +37,14 @@ spring.jpa.properties.hibernate.format_sql=true
 # file.max-size-bytes=
 # file.root-path=
 
+# ===========================
+# Multipart File (예시)
+# ===========================
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# =========================
+# NAVER CLOVA API (예시)
+# =========================
+clova.ocr.invoke-url=
+clova.ocr.secret-key=
