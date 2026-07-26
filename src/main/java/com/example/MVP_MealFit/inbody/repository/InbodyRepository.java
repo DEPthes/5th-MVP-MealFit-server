@@ -18,7 +18,7 @@ public interface InbodyRepository extends JpaRepository<Inbody, Long> {
         SELECT i
         FROM Inbody i
         WHERE i.member.id = :memberId
-        ORDER BY i.measuredAt DESC
+        ORDER BY i.measuredAt DESC, i.id DESC
         """)
     List<Inbody> findLatest(@Param("memberId") Long memberId, Pageable pageable);
 
@@ -29,7 +29,7 @@ public interface InbodyRepository extends JpaRepository<Inbody, Long> {
         SELECT i
         FROM Inbody i
         WHERE i.member.id = :memberId
-        ORDER BY i.measuredAt DESC
+        ORDER BY i.measuredAt DESC, i.id DESC
         """)
     List<Inbody> findHistory(@Param("memberId") Long memberId);
 }
