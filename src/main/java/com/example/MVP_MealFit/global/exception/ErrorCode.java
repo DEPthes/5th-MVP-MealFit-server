@@ -18,6 +18,8 @@ public enum ErrorCode {
     INBODY_PARSE_FAILED(HttpStatus.UNPROCESSABLE_ENTITY, "INBODY_001", "인바디 결과에서 필요한 데이터를 추출할 수 없습니다."),
     INBODY_NOT_FOUND(HttpStatus.NOT_FOUND, "INBODY_002", "인바디 정보를 찾을 수 없습니다."),
 
+    RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "RESTAURANT_001", "존재하지 않는 식당입니다."),
+
     FILE_INVALID_TYPE(HttpStatus.BAD_REQUEST, "FILE_001", "허용되지 않는 파일 형식입니다."),
     FILE_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "FILE_002", "파일 용량이 너무 큽니다."),
 

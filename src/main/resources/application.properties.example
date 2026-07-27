@@ -23,6 +23,7 @@ spring.jpa.properties.hibernate.format_sql=true
 # =========================
 # jwt.issuer=
 # jwt.secret=
+# jwt.expiration=
 
 # =========================
 # OpenAI (예시)

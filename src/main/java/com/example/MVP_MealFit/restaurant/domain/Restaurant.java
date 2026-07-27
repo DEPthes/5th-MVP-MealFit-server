@@ -1,0 +1,58 @@
+package com.example.MVP_MealFit.restaurant.domain;
+
+import com.example.MVP_MealFit.global.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Immutable;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Getter
+@Immutable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "restaurant")
+public class Restaurant extends BaseTimeEntity {
+
+    // 식당 PK
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable = false, updatable = false)
+    private Long id;
+
+    // 식당명
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String name;
+
+    // 식당 주소
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String address;
+
+    // 위도
+    @Column(nullable = false, insertable = false, updatable = false)
+    private Double latitude;
+
+    // 경도
+    @Column(nullable = false, insertable = false, updatable = false)
+    private Double longitude;
+
+    // 음식 종류
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, insertable = false, updatable = false)
+    private Cuisine cuisine;
+
+    // 크롤링 원본 URL
+    @Column(nullable = false, unique = true, insertable = false, updatable = false)
+    private String sourceUrl;
+
+    // Python이 마지막으로 적재한 시각
+    @Column(nullable = false, insertable = false, updatable = false)
+    private LocalDateTime crawledAt;
+
+    // 식당 메뉴 목록
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    private List<Menu> menus;
+}
