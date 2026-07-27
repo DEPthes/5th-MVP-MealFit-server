@@ -10,6 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -44,6 +48,12 @@ public class Member extends BaseTimeEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private NutritionTarget nutritionTarget;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "member_disease", joinColumns = @JoinColumn(name = "member_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "disease")
+    private List<Disease> diseases = new ArrayList<>();
 
     protected Member() {
         // JPA 기본 생성자
@@ -85,6 +95,15 @@ public class Member extends BaseTimeEntity {
 
     public int getAge(LocalDate today) {
         return Period.between(birthDate, today).getYears();
+    }
+
+    public void updateDiseases(List<Disease> diseases) {
+        this.diseases.clear();
+        this.diseases.addAll(diseases);
+    }
+
+    public List<Disease> getDiseases() {
+        return Collections.unmodifiableList(diseases);
     }
 
     public Long getId() { return id; }
