@@ -19,7 +19,9 @@ public enum ErrorCode {
     INBODY_NOT_FOUND(HttpStatus.NOT_FOUND, "INBODY_002", "인바디 정보를 찾을 수 없습니다."),
 
     FILE_INVALID_TYPE(HttpStatus.BAD_REQUEST, "FILE_001", "허용되지 않는 파일 형식입니다."),
-    FILE_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "FILE_002", "파일 용량이 너무 큽니다.");
+    FILE_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "FILE_002", "파일 용량이 너무 큽니다."),
+
+    TARGET_NOT_READY(HttpStatus.NOT_FOUND, "ANALYSIS_001", "목표 영양치가 아직 산출되지 않았습니다.");
 
     private final HttpStatus status;
     private final String code;
