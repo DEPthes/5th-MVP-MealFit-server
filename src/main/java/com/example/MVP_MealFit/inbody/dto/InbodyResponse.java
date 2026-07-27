@@ -17,7 +17,9 @@ public class InbodyResponse {
     private final BigDecimal skeletalMuscleMass;
     private final BigDecimal bodyFatPercentage;
     private final Integer bmr;
+    private final Integer inbodyScore;
     private final LocalDate measuredAt;
+    private final LocalDate uploadedAt;
     private final boolean stale;
     private final String imagePath;
 
@@ -29,7 +31,9 @@ public class InbodyResponse {
                 inbody.getSkeletalMuscleMass(),
                 inbody.getBodyFatPercentage(),
                 inbody.getBmr(),
+                inbody.getInbodyScore(),
                 inbody.getMeasuredAt(),
+                inbody.getUploadedAt(),
                 inbody.isStale(today),
                 inbody.getImagePath()
         );

@@ -46,6 +46,7 @@ public class InbodyParser {
         BigDecimal muscleMass = extractMuscleMass(fields);
         BigDecimal bodyFatPercentage = extractBodyFatPercentage(fields);
         Integer bmr = extractBmr(fields);
+        Integer inbodyScore = extractInbodyScore(fields);
         Optional<LocalDate> measuredAt = extractDate(fields);
 
         // DTO 변환
@@ -54,6 +55,7 @@ public class InbodyParser {
                 muscleMass,
                 bodyFatPercentage,
                 bmr,
+                inbodyScore,
                 measuredAt
         );
     }
@@ -157,6 +159,16 @@ public class InbodyParser {
         ).intValue();
     }
 
+    private Integer extractInbodyScore(List<ClovaOcrResponse.Field> fields) {
+        return findNearestNumber(
+                fields,
+                findInbodyScoreLabel(fields),
+                80, 220,    // X 범위 (조정 가능)
+                40, 120,    // Y 범위 (조정 가능)
+                0, 100      // 점수 범위
+        ).intValue();
+    }
+
     // 측정일 추출, 실패하면 Optional.empty()를 반환하며 호출 측에서 업로드일로 대체
     private Optional<LocalDate> extractDate(List<ClovaOcrResponse.Field> fields) {
         return fields.stream()
@@ -240,6 +252,17 @@ public class InbodyParser {
         return findLabel(
                 fields,
                 "기초대사량"
+        );
+    }
+
+    // 인바디 점수 라벨 검색
+    private ClovaOcrResponse.Field findInbodyScoreLabel(
+            List<ClovaOcrResponse.Field> fields) {
+
+        return findLabel(
+                fields,
+                "인바디점수",
+                "인바디 점수"
         );
     }
 

@@ -53,8 +53,11 @@ public class InbodyService {
             // 회원 조회
             Member member = memberService.getMember(memberId);
 
+            // 업로드일
+            LocalDate uploadedAt = LocalDate.now();
+
             // 측정일
-            LocalDate measuredAt = data.measuredAt().orElse(LocalDate.now());
+            LocalDate measuredAt = data.measuredAt().orElse(uploadedAt);
 
             // 엔티티 생성
             Inbody inbody = Inbody.builder()
@@ -63,7 +66,9 @@ public class InbodyService {
                     .skeletalMuscleMass(data.skeletalMuscleMass())
                     .bodyFatPercentage(data.bodyFatPercentage())
                     .bmr(data.bmr())
+                    .inbodyScore(data.inbodyScore())
                     .measuredAt(measuredAt)
+                    .uploadedAt(uploadedAt)
                     .imagePath(storedPath)
                     .originalFilename(file.getOriginalFilename())
                     .fileSize(file.getSize())

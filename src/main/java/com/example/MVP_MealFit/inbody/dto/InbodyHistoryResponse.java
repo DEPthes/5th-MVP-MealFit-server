@@ -33,8 +33,14 @@ public class InbodyHistoryResponse {
     // 기초대사량
     private final Integer bmr;
 
+    // 인바디 점수
+    private final Integer inbodyScore;
+
     // 측정일
     private final LocalDate measuredAt;
+
+    // 업로드일
+    private final LocalDate uploadedAt;
 
     public static InbodyHistoryResponse from(Inbody inbody) {
         return new InbodyHistoryResponse(
@@ -45,7 +51,9 @@ public class InbodyHistoryResponse {
                 inbody.getSkeletalMuscleMass(),
                 inbody.getBodyFatPercentage(),
                 inbody.getBmr(),
-                inbody.getMeasuredAt()
+                inbody.getInbodyScore(),
+                inbody.getMeasuredAt(),
+                inbody.getUploadedAt()
         );
     }
 }

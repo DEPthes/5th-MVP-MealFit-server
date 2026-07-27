@@ -40,9 +40,17 @@ public class Inbody {
     @Column(nullable = false)
     private Integer bmr;
 
+    // 인바디 점수
+    @Column(name = "inbody_score", nullable = false)
+    private Integer inbodyScore;
+
     // 측정일
     @Column(name = "measured_at", nullable = false)
     private LocalDate measuredAt;
+
+    // 업로드일
+    @Column(name = "uploaded_at", nullable = false)
+    private LocalDate uploadedAt;
 
     // OCR 원본 이미지 저장 경로
     @Column(name = "image_path", nullable = false, length = 500)
