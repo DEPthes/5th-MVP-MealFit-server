@@ -29,17 +29,6 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    @Transactional
-    public void updateDiseases(Long memberId, List<Disease> diseases) {
-        Member member = getMember(memberId);
-        member.updateDiseases(diseases);
-    }
-
-    // analysis.ReportService 전용 공개 API — 조회만, Member 엔티티 자체는 노출하지 않음
-    public List<Disease> getDiseases(Long memberId) {
-        return getMember(memberId).getDiseases();
-    }
-
     public Long signup(SignupRequest req) {
         if (memberRepository.existsByEmail(req.getEmail())) {
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
@@ -73,6 +62,16 @@ public class MemberService {
 
         return new TokenResponse(accessToken, member.getId(), member.getNickname());
     }
+    @Transactional
+    public void updateDiseases(Long memberId, List<Disease> diseases) {
+        Member member = getMember(memberId);
+        member.updateDiseases(diseases);
+    }
+
+    // analysis.ReportService 전용 공개 API — 조회만, Member 엔티티 자체는 노출하지 않음
+    public List<Disease> getDiseases(Long memberId) {
+        return getMember(memberId).getDiseases();
+    }
 
     public MemberResponse getProfile(Long memberId) {
         Member member = getMember(memberId);
@@ -83,6 +82,9 @@ public class MemberService {
     public void updateProfile(Long memberId, ProfileUpdateRequest req) {
         Member member = getMember(memberId);
         member.updateProfile(req.getNickname(), req.getHeight(), req.getActivityLevel(), req.getGoal());
+        if (req.getDiseases() != null) {
+            member.updateDiseases(req.getDiseases());
+        }
     }
 
     public Member getMember(Long memberId) {
