@@ -6,6 +6,7 @@ public record ReportResponse(
         int healthScore,
         NutritionDto dailyTarget,
         List<DeficiencyDto> deficiencies,
+        String summary,
         Long basisInbodyId
 ) {
 }

@@ -29,6 +29,7 @@ public class ReportService {
     private final MemberService memberService;
     private final InbodyService inbodyService;
     private final DeficiencyResolver deficiencyResolver;
+    private final AiClient aiClient;
 
     @Transactional(readOnly = true)
     public ReportResponse getReport(Long memberId) {
@@ -44,10 +45,13 @@ public class ReportService {
         List<Disease> diseases = memberService.getDiseases(memberId);
         List<Deficiency> cards = deficiencyResolver.resolve(diseases);
 
+        String summary = aiClient.summarize(inbody.getInbodyScore(), cards);
+
         return new ReportResponse(
                 inbody.getInbodyScore(),
                 NutritionDto.from(target.getTarget()),
                 cards.stream().map(DeficiencyDto::from).toList(),
+                summary,
                 inbody.getId()
         );
     }
