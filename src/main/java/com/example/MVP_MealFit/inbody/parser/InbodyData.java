@@ -10,6 +10,7 @@ public record InbodyData(
         BigDecimal skeletalMuscleMass,
         BigDecimal bodyFatPercentage,
         Integer bmr,
+        Integer visceralFatLevel,
         Integer inbodyScore,
         Optional<LocalDate> measuredAt) {
 }
