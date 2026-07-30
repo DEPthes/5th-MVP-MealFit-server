@@ -41,15 +41,6 @@ public class InbodyParser {
         // OCR 응답에서 인식된 문자열 목록 추출
         List<ClovaOcrResponse.Field> fields = extractFields(response);
 
-        for (ClovaOcrResponse.Field field : fields) {
-            System.out.printf(
-                    "text=%s, x=%.2f, y=%.2f%n",
-                    field.getInferText(),
-                    field.centerX(),
-                    field.centerY()
-            );
-        }
-
         // 필요한 데이터 추출
         BigDecimal weight = extractWeight(fields);
         BigDecimal muscleMass = extractMuscleMass(fields);
