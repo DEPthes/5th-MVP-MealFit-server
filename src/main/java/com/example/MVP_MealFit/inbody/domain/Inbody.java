@@ -40,6 +40,10 @@ public class Inbody {
     @Column(nullable = false)
     private Integer bmr;
 
+    // 내장지방레벨
+    @Column(name = "visceral_fat_level", nullable = false)
+    private Integer visceralFatLevel;
+
     // 인바디 점수
     @Column(name = "inbody_score", nullable = false)
     private Integer inbodyScore;

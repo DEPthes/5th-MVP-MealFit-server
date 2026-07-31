@@ -66,6 +66,7 @@ public class InbodyService {
                     .skeletalMuscleMass(data.skeletalMuscleMass())
                     .bodyFatPercentage(data.bodyFatPercentage())
                     .bmr(data.bmr())
+                    .visceralFatLevel(data.visceralFatLevel())
                     .inbodyScore(data.inbodyScore())
                     .measuredAt(measuredAt)
                     .uploadedAt(uploadedAt)

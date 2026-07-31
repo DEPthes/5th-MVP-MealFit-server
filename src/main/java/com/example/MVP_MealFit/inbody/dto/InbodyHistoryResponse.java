@@ -33,6 +33,9 @@ public class InbodyHistoryResponse {
     // 기초대사량
     private final Integer bmr;
 
+    // 내장지방레벨
+    private final Integer visceralFatLevel;
+
     // 인바디 점수
     private final Integer inbodyScore;
 
@@ -51,6 +54,7 @@ public class InbodyHistoryResponse {
                 inbody.getSkeletalMuscleMass(),
                 inbody.getBodyFatPercentage(),
                 inbody.getBmr(),
+                inbody.getVisceralFatLevel(),
                 inbody.getInbodyScore(),
                 inbody.getMeasuredAt(),
                 inbody.getUploadedAt()

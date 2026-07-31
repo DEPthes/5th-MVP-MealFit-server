@@ -46,6 +46,7 @@ public class InbodyParser {
         BigDecimal muscleMass = extractMuscleMass(fields);
         BigDecimal bodyFatPercentage = extractBodyFatPercentage(fields);
         Integer bmr = extractBmr(fields);
+        Integer visceralFatLevel = extractVisceralFatLevel(fields);
         Integer inbodyScore = extractInbodyScore(fields);
         Optional<LocalDate> measuredAt = extractDate(fields);
 
@@ -55,6 +56,7 @@ public class InbodyParser {
                 muscleMass,
                 bodyFatPercentage,
                 bmr,
+                visceralFatLevel,
                 inbodyScore,
                 measuredAt
         );
@@ -159,6 +161,18 @@ public class InbodyParser {
         ).intValue();
     }
 
+    // 내장지방레벨 추출
+    private Integer extractVisceralFatLevel(List<ClovaOcrResponse.Field> fields) {
+        return findNearestNumber(
+                fields,
+                findVisceralFatLevelLabel(fields),
+                0, 60,
+                30, 80,
+                1, 20
+        ).intValue();
+    }
+
+    // 인바디 점수 추출
     private Integer extractInbodyScore(List<ClovaOcrResponse.Field> fields) {
         return findNearestNumber(
                 fields,
@@ -254,6 +268,17 @@ public class InbodyParser {
                 "기초대사량"
         );
     }
+
+    // 내장지방레벨 라벨 검색
+    private ClovaOcrResponse.Field findVisceralFatLevelLabel(
+            List<ClovaOcrResponse.Field> fields) {
+
+        return findLabel(
+                fields,
+                "내장지방레벨"
+        );
+    }
+
 
     // 인바디 점수 라벨 검색
     private ClovaOcrResponse.Field findInbodyScoreLabel(
