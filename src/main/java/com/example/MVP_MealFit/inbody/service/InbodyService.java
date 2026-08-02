@@ -12,12 +12,14 @@ import com.example.MVP_MealFit.inbody.parser.InbodyParser;
 import com.example.MVP_MealFit.inbody.repository.InbodyRepository;
 import com.example.MVP_MealFit.member.domain.Member;
 import com.example.MVP_MealFit.member.service.MemberService;
+import com.example.MVP_MealFit.analysis.service.TargetCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,7 +38,7 @@ public class InbodyService {
     private final FileValidator fileValidator;
     private final FileStore fileStore;
     private final InbodyParser inbodyParser;
-
+    private final TargetCalculator targetCalculator;
     // 인바디 결과지 업로드
     @Transactional
     public InbodyResponse register(Long memberId, MultipartFile file) {
@@ -61,6 +63,12 @@ public class InbodyService {
             // 측정일
             LocalDate measuredAt = data.measuredAt().orElse(uploadedAt);
 
+            // 업로드 시점의 목표 단백질 계산 (분석 히스토리용)
+            BigDecimal proteinTarget = targetCalculator
+                    .calculate(data.bmr(), member.getActivityLevel(), member.getGoal())
+                    .getProtein();
+
+
             // 엔티티 생성
             Inbody inbody = Inbody.builder()
                     .member(member)
@@ -75,6 +83,7 @@ public class InbodyService {
                     .imagePath(storedPath)
                     .originalFilename(file.getOriginalFilename())
                     .fileSize(file.getSize())
+                    .proteinTarget(proteinTarget)
                     .build();
 
             // 저장

@@ -1,5 +1,6 @@
 package com.example.MVP_MealFit.analysis.service;
 
+import com.example.MVP_MealFit.analysis.dto.AnalysisHistoryResponse;
 import com.example.MVP_MealFit.analysis.dto.ScoreTrendResponse;
 import com.example.MVP_MealFit.inbody.service.InbodyService;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +29,26 @@ public class TrendService {
         int limit = expanded ? MAX_LIMIT : DEFAULT_LIMIT;
 
         // findHistory는 측정일 내림차순(최신 먼저). 최근 N개를 자른 뒤 그래프용으로 뒤집는다.
-        List<ScoreTrendResponse> recent = inbodyService.findHistory(memberId).stream()
+        List<ScoreTrendResponse> recent = inbodyService.findAnalysisHistory(memberId).stream()
                 .limit(limit)
                 .map(ScoreTrendResponse::from)
                 .collect(java.util.stream.Collectors.toList());
 
         Collections.reverse(recent);  // 오래된 → 최신 (그래프 X축 방향)
         return recent;
+    }
+
+    /**
+     * 분석 히스토리 조회 (측정일 · 업로드일 · 점수 · 그 시점 목표 단백질)
+     * 최신순(측정일 내림차순)으로 반환
+     */
+    @Transactional(readOnly = true)
+    public List<AnalysisHistoryResponse> getAnalysisHistory(Long memberId, boolean expanded) {
+        int limit = expanded ? MAX_LIMIT : DEFAULT_LIMIT;
+
+        return inbodyService.findAnalysisHistory(memberId).stream()
+                .limit(limit)
+                .map(AnalysisHistoryResponse::from)
+                .collect(java.util.stream.Collectors.toList());
     }
 }
