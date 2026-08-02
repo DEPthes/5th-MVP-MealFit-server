@@ -45,13 +45,20 @@ public class ReportService {
         List<Disease> diseases = memberService.getDiseases(memberId);
         List<Deficiency> cards = deficiencyResolver.resolve(diseases);
 
-        String summary = aiClient.summarize(inbody.getInbodyScore(), cards);
+        AiResult ai = aiClient.generate(inbody.getInbodyScore(), cards);
+
+        List<DeficiencyDto> cardDtos = new java.util.ArrayList<>();
+        for (int i = 0; i < cards.size(); i++) {
+            String desc = (i < ai.cardDescriptions().size())
+                    ? ai.cardDescriptions().get(i) : "";
+            cardDtos.add(DeficiencyDto.from(cards.get(i), desc));
+        }
 
         return new ReportResponse(
                 inbody.getInbodyScore(),
                 NutritionDto.from(target.getTarget()),
-                cards.stream().map(DeficiencyDto::from).toList(),
-                summary,
+                cardDtos,
+                ai.summary(),
                 inbody.getId()
         );
     }

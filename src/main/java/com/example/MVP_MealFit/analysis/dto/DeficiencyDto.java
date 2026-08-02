@@ -8,13 +8,15 @@ import java.util.List;
 public record DeficiencyDto(
         int priority,
         String issue,
-        List<String> relatedDiseases
+        List<String> relatedDiseases,
+        String description
 ) {
-    public static DeficiencyDto from(Deficiency d) {
+    public static DeficiencyDto from(Deficiency d, String description) {
         return new DeficiencyDto(
                 d.priority(),
                 d.issue().getLabel(),
-                d.relatedDiseases().stream().map(Disease::name).toList()
+                d.relatedDiseases().stream().map(Disease::name).toList(),
+                description
         );
     }
 }
