@@ -26,10 +26,10 @@ spring.jpa.properties.hibernate.format_sql=true
 # jwt.expiration=
 
 # =========================
-# OpenAI (예시)
+# Gemini API
 # =========================
-# openai.api.key=
-# openai.model=gpt-5.5
+# gemini.api-key=
+# gemini.model=gemini-3.5-flash
 
 # ===========================
 # File Upload (예시)
@@ -49,3 +49,4 @@ spring.servlet.multipart.max-request-size=10MB
 # =========================
 clova.ocr.invoke-url=
 clova.ocr.secret-key=
+
