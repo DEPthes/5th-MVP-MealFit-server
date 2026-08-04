@@ -45,6 +45,9 @@ public class InbodyHistoryResponse {
     // 업로드일
     private final LocalDate uploadedAt;
 
+    // 목표 단백질 (그 시점 계산값)
+    private final BigDecimal proteinTarget;
+
     public static InbodyHistoryResponse from(Inbody inbody) {
         return new InbodyHistoryResponse(
                 inbody.getId(),
@@ -57,7 +60,8 @@ public class InbodyHistoryResponse {
                 inbody.getVisceralFatLevel(),
                 inbody.getInbodyScore(),
                 inbody.getMeasuredAt(),
-                inbody.getUploadedAt()
+                inbody.getUploadedAt(),
+                inbody.getProteinTarget()
         );
     }
 }

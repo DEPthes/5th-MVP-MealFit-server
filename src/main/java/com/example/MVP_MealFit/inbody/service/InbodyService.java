@@ -12,15 +12,19 @@ import com.example.MVP_MealFit.inbody.parser.InbodyParser;
 import com.example.MVP_MealFit.inbody.repository.InbodyRepository;
 import com.example.MVP_MealFit.member.domain.Member;
 import com.example.MVP_MealFit.member.service.MemberService;
+import com.example.MVP_MealFit.analysis.service.TargetCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +38,7 @@ public class InbodyService {
     private final FileValidator fileValidator;
     private final FileStore fileStore;
     private final InbodyParser inbodyParser;
-
+    private final TargetCalculator targetCalculator;
     // 인바디 결과지 업로드
     @Transactional
     public InbodyResponse register(Long memberId, MultipartFile file) {
@@ -59,6 +63,12 @@ public class InbodyService {
             // 측정일
             LocalDate measuredAt = data.measuredAt().orElse(uploadedAt);
 
+            // 업로드 시점의 목표 단백질 계산 (분석 히스토리용)
+            BigDecimal proteinTarget = targetCalculator
+                    .calculate(data.bmr(), member.getActivityLevel(), member.getGoal())
+                    .getProtein();
+
+
             // 엔티티 생성
             Inbody inbody = Inbody.builder()
                     .member(member)
@@ -73,6 +83,7 @@ public class InbodyService {
                     .imagePath(storedPath)
                     .originalFilename(file.getOriginalFilename())
                     .fileSize(file.getSize())
+                    .proteinTarget(proteinTarget)
                     .build();
 
             // 저장
@@ -113,5 +124,26 @@ public class InbodyService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.INBODY_NOT_FOUND));
 
         return InbodyResponse.from(latest, LocalDate.now());
+    }
+
+    // Analysis 전용 인바디 조회
+    // 같은 측정일(measuredAt)은 가장 마지막에 업로드 한(id가 가장 큰) 기록만 반환
+    public List<InbodyHistoryResponse> findAnalysisHistory(Long memberId) {
+
+        memberService.getMember(memberId);
+
+        return inbodyRepository.findHistory(memberId)
+                .stream()
+                // measuredAt 기준으로 중복 제거 (findHistory가 id DESC 정렬되어 있으므로 첫 번째가 최신 업로드)
+                .collect(Collectors.toMap(
+                        Inbody::getMeasuredAt,
+                        inbody -> inbody,
+                        (first, second) -> first,
+                        LinkedHashMap::new
+                ))
+                .values()
+                .stream()
+                .map(InbodyHistoryResponse::from)
+                .toList();
     }
 }

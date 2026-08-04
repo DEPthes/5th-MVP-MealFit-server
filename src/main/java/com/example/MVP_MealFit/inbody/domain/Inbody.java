@@ -68,6 +68,10 @@ public class Inbody {
     @Column(name = "file_size", nullable = false)
     private Long fileSize;
 
+    // 업로드 시점의 목표 단백질 (g) — 분석 히스토리용
+    @Column(name = "protein_target", precision = 8, scale = 2)
+    private BigDecimal proteinTarget;
+
     // 판정 기준 상수
     private static final int STALE_DAYS = 14;
 
