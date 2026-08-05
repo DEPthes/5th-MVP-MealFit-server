@@ -31,13 +31,13 @@ public class Restaurant extends BaseTimeEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private String address;
 
-    // 위도
-    @Column(nullable = false, insertable = false, updatable = false)
-    private Double latitude;
+    // 명지대학교 정문까지의 거리(m)
+    @Column(name = "distance_to_main_gate", nullable = false, insertable = false, updatable = false)
+    private Integer distanceToMainGate;
 
-    // 경도
-    @Column(nullable = false, insertable = false, updatable = false)
-    private Double longitude;
+    // 명지대학교 후문까지의 거리(m)
+    @Column(name = "distance_to_back_gate", nullable = false, insertable = false, updatable = false)
+    private Integer distanceToBackGate;
 
     // 음식 종류
     @Enumerated(EnumType.STRING)

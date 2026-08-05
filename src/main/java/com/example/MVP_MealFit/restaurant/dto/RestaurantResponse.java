@@ -13,8 +13,8 @@ public class RestaurantResponse {
     private String name;
     private String address;
     private Cuisine cuisine;
-    private Double latitude;
-    private Double longitude;
+    private Integer distanceToMainGate;
+    private Integer distanceToBackGate;
 
     public static RestaurantResponse from(Restaurant restaurant) {
 
@@ -23,8 +23,8 @@ public class RestaurantResponse {
                 .name(restaurant.getName())
                 .address(restaurant.getAddress())
                 .cuisine(restaurant.getCuisine())
-                .latitude(restaurant.getLatitude())
-                .longitude(restaurant.getLongitude())
+                .distanceToMainGate(restaurant.getDistanceToMainGate())
+                .distanceToBackGate(restaurant.getDistanceToBackGate())
                 .build();
     }
 }
