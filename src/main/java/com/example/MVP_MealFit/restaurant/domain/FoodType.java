@@ -17,7 +17,9 @@ public enum FoodType {
     SALAD("샐러드"),
     SEAFOOD("해산물"),
     FRIED("튀김"),
-    DESSERT("디저트");
+    DESSERT("디저트"),
+    PIZZA("피자"),
+    SANDWICH("샌드위치");
 
     private final String displayName;
 

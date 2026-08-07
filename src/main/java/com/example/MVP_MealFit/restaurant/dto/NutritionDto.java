@@ -17,6 +17,7 @@ public class NutritionDto {
     private BigDecimal fat;
     private NutritionSource source;
     private BigDecimal confidence;
+    private BigDecimal sodium;
 
     public static NutritionDto from(Nutrition nutrition) {
 
@@ -31,6 +32,7 @@ public class NutritionDto {
                 .fat(nutrition.getFat())
                 .source(nutrition.getSource())
                 .confidence(nutrition.getConfidence())
+                .sodium(nutrition.getSodium())
                 .build();
     }
 

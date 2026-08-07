@@ -28,30 +28,41 @@ public class Nutrition {
     @Column(name = "nutrition_confidence", precision = 4, scale = 3)
     private BigDecimal confidence;
 
+    @Column(name = "nutrition_sodium", precision = 8, scale = 2)
+    private BigDecimal sodium;
+
     protected Nutrition() {
         // JPA 기본 생성자
     }
 
     private Nutrition(Integer calories, BigDecimal carbohydrate, BigDecimal protein,
-                      BigDecimal fat, NutritionSource source, BigDecimal confidence) {
+                      BigDecimal fat, NutritionSource source, BigDecimal confidence,
+                      BigDecimal sodium) {
         this.calories = calories;
         this.carbohydrate = carbohydrate;
         this.protein = protein;
         this.fat = fat;
         this.source = source;
         this.confidence = confidence;
+        this.sodium = sodium;
     }
 
-    // 공식 데이터 (confidence 없음)
+    // 공식 데이터 (confidence 없음, 나트륨 없음)
     public static Nutrition official(Integer calories, BigDecimal carbohydrate,
                                      BigDecimal protein, BigDecimal fat) {
-        return new Nutrition(calories, carbohydrate, protein, fat, NutritionSource.OFFICIAL, null);
+        return new Nutrition(calories, carbohydrate, protein, fat, NutritionSource.OFFICIAL, null, null);
+    }
+
+    // 공식 데이터 + 나트륨 (식당 메뉴 조회용 — menu.nutrition_sodium 매핑)
+    public static Nutrition official(Integer calories, BigDecimal carbohydrate,
+                                     BigDecimal protein, BigDecimal fat, BigDecimal sodium) {
+        return new Nutrition(calories, carbohydrate, protein, fat, NutritionSource.OFFICIAL, null, sodium);
     }
 
     // AI 추정 데이터 (confidence 있음)
     public static Nutrition estimated(Integer calories, BigDecimal carbohydrate,
                                       BigDecimal protein, BigDecimal fat, BigDecimal confidence) {
-        return new Nutrition(calories, carbohydrate, protein, fat, NutritionSource.ESTIMATED, confidence);
+        return new Nutrition(calories, carbohydrate, protein, fat, NutritionSource.ESTIMATED, confidence, null);
     }
 
     public Integer getCalories() { return calories; }
@@ -60,4 +71,5 @@ public class Nutrition {
     public BigDecimal getFat() { return fat; }
     public NutritionSource getSource() { return source; }
     public BigDecimal getConfidence() { return confidence; }
+    public BigDecimal getSodium() { return sodium; }
 }
