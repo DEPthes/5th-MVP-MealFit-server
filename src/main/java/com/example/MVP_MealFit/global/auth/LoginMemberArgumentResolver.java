@@ -16,7 +16,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         boolean hasAnnotation = parameter.hasParameterAnnotation(LoginMember.class);
         boolean isLongType = Long.class.equals(parameter.getParameterType());
         return hasAnnotation && isLongType;
-    }
+    }   
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,

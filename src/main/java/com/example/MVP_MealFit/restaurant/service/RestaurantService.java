@@ -30,12 +30,13 @@ public class RestaurantService {
         String keyword = cond.getKeyword();
 
         // 음식 종류가 선택되지 않은 경우 동의어 검색
+        // keyword는 지우지 않는다 — 지우면 "치킨"처럼 이름으로 이미 걸리는 메뉴까지
+        // 태그(MEAT) 조건에만 의존하게 되어, 태그가 없는 메뉴는 찾을 수 없게 된다.
         if (foodType == null) {
             var resolved = synonymResolver.resolve(keyword);
 
             if (resolved.isPresent()) {
                 foodType = resolved.get();
-                keyword = null;
             }
         }
 
