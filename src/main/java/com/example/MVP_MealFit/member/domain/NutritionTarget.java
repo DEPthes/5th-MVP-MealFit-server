@@ -34,20 +34,30 @@ public class NutritionTarget extends BaseTimeEntity {
         this.calculatedAt = calculatedAt;
     }
 
+    /**
+     * 한 끼 기준 영양치를 계산
+     * 하루 목표치(target)를 하루 세 끼(3)로 균등 분배한 값이며,
+     * recommendation 패키지가 메뉴 추천 시 비교 기준으로 사용한다.
+     * 모든 필드(calories, carbohydrate, protein, fat, sodium)에 동일하게 1/3 규칙을 적용해 일관성을 유지함.
+     */
+
     public Nutrition perMeal() {
         return Nutrition.official(
                 target.getCalories() / 3,
                 divideByThree(target.getCarbohydrate()),
                 divideByThree(target.getProtein()),
-                divideByThree(target.getFat())
+                divideByThree(target.getFat()),
+                divideByThree(target.getSodium())
         );
     }
-
     public boolean isBasedOn(Long inbodyId) {
         return sourceInbodyId != null && sourceInbodyId.equals(inbodyId);
     }
 
     private BigDecimal divideByThree(BigDecimal value) {
+        if (value == null) {
+            return null;
+        }
         return value.divide(BigDecimal.valueOf(3), 2, java.math.RoundingMode.HALF_UP);
     }
 
