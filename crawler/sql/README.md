@@ -207,7 +207,121 @@ mysql -u root -p -e "DROP DATABASE mealfit_test;" && mysql -u root -p -e "CREATE
 
 ---
 
-## 8. 실제 파이프라인을 돌려보고 싶다면
+## 8. 두 SQL 파일을 실제 데이터로 검증하기
+
+기존 DB를 건드리지 않고, **스키마 → 데이터 전 과정**을 그대로 재현해 보는 방법입니다.
+
+`restaurant`·`menu`·`menu_food_type`·`food_type_synonym`은 **서버가 만드는 테이블**이라
+`schema_additions.sql`이 만들지 않습니다. 빈 DB에 그냥 넣으면 사전 조건 검사에 걸려
+"서버를 한 번 실행하세요"라는 메시지로 멈춥니다.
+
+그래서 기존 DB에서 **구조만 복제**합니다. `CREATE TABLE ... LIKE`는 행은 가져오지 않습니다.
+
+### ① 검증용 DB 만들기
+
+```sql
+CREATE DATABASE mealfit_verify CHARACTER SET utf8mb4;
+CREATE TABLE mealfit_verify.restaurant        LIKE mealfit_test.restaurant;
+CREATE TABLE mealfit_verify.menu              LIKE mealfit_test.menu;
+CREATE TABLE mealfit_verify.menu_food_type    LIKE mealfit_test.menu_food_type;
+CREATE TABLE mealfit_verify.food_type_synonym LIKE mealfit_test.food_type_synonym;
+USE mealfit_verify;
+```
+
+> `official_food`와 `menu_alias`는 복제하지 않습니다 — `schema_additions.sql`이 직접 만듭니다.
+> **그게 제대로 동작하는지 보는 것도 검증 대상**입니다.
+
+### ② 스키마 적용
+
+```sql
+source <경로>/crawler/sql/schema_additions.sql
+```
+
+`restaurant` — 거리 컬럼이 신규 이름으로 바뀌었는지:
+
+```sql
+SHOW COLUMNS FROM restaurant;
+```
+
+| 있어야 함 | 없어야 함 |
+|---|---|
+| `distance_to_main_gate` (int) | `distance_from_front_gate_m` |
+| `distance_to_back_gate` (int) | `distance_from_back_gate_m` |
+| `latitude`, `longitude` (double) | |
+
+`menu` — `matched_by` 컬럼과 자연키:
+
+```sql
+SHOW COLUMNS FROM menu;
+```
+
+```sql
+SHOW INDEX FROM menu WHERE Key_name = 'uk_menu_natural';
+```
+
+`uk_menu_natural`이 `restaurant_id` + `normalized_name` 두 컬럼으로 잡혀 있어야 합니다.
+
+새로 만들어진 두 테이블:
+
+```sql
+SHOW TABLES;
+```
+
+`official_food`, `menu_alias`가 목록에 있어야 합니다.
+
+### ③ 실제 데이터 넣기
+
+```sql
+source <경로>/crawler/sql/seed_test_data.sql
+```
+
+### ④ 건수 대조
+
+```sql
+SELECT
+  (SELECT COUNT(*) FROM restaurant)        AS 식당,
+  (SELECT COUNT(*) FROM menu)              AS 메뉴,
+  (SELECT COUNT(*) FROM official_food)     AS 식약처식품,
+  (SELECT COUNT(*) FROM menu_food_type)    AS 태그,
+  (SELECT COUNT(*) FROM food_type_synonym) AS 동의어,
+  (SELECT COUNT(*) FROM menu_alias)        AS LLM캐시;
+```
+
+기대값 — **97 / 1006 / 112 / 818 / 57 / 448**
+
+거리와 영양이 실제로 채워졌는지:
+
+```sql
+SELECT COUNT(distance_to_main_gate) AS 거리있음,
+       MIN(distance_to_main_gate)   AS 최단,
+       MAX(distance_to_main_gate)   AS 최장
+FROM restaurant;
+```
+
+기대값 — **97 / 64 / 1457**
+
+```sql
+SELECT COUNT(*) AS 전체, COUNT(nutrition_calories) AS 영양있음,
+       COUNT(official_food_code) AS 식약처매칭, COUNT(matched_by) AS 매칭출처
+FROM menu;
+```
+
+기대값 — **1006 / 168 / 168 / 168**
+
+### ⑤ 두 번 돌려도 안전한지
+
+두 파일을 한 번씩 더 실행합니다. **에러 없이 끝나고 ④의 건수가 그대로여야** 정상입니다
+(스키마는 이미 있으면 건너뛰고, seed는 `INSERT IGNORE`라 중복이 안 생깁니다).
+
+### ⑥ 정리
+
+```sql
+DROP DATABASE mealfit_verify;
+```
+
+---
+
+## 9. 실제 파이프라인을 돌려보고 싶다면
 
 위 과정은 **결과 데이터를 넣는 것**입니다. 파이프라인 자체를 실행하려면 크롤러 README를 참고하세요.
 Playwright(브라우저), 카카오 지오코딩 키, Ollama 또는 Gemini 키, 식약처 영양정보 xlsx가 추가로 필요합니다.

@@ -19,8 +19,30 @@ SET NAMES utf8mb4;
 -- MySQL 8에는 ADD COLUMN IF NOT EXISTS가 없어서 이 방식을 쓴다.
 -- ---------------------------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS mealfit_require_tables;
 DROP PROCEDURE IF EXISTS mealfit_add_column;
+DROP PROCEDURE IF EXISTS mealfit_drop_column;
+DROP PROCEDURE IF EXISTS mealfit_add_unique;
+
 DELIMITER $$
+
+-- 사전 조건 검사. restaurant/menu는 서버 엔티티가 만드는 테이블이라
+-- 여기서 만들지 않는다. 없는 상태로 진행하면 ALTER TABLE이 죽으므로,
+-- 원인을 알 수 있는 메시지로 먼저 멈춘다.
+CREATE PROCEDURE mealfit_require_tables()
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'restaurant'
+    ) OR NOT EXISTS (
+        SELECT 1 FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'menu'
+    ) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT =
+            'restaurant/menu 테이블이 없습니다. 서버(Spring)를 한 번 실행해 테이블을 만든 뒤 다시 실행하세요.';
+    END IF;
+END$$
+
 CREATE PROCEDURE mealfit_add_column(
     IN p_table VARCHAR(64), IN p_column VARCHAR(64), IN p_definition TEXT
 )
@@ -58,6 +80,8 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+CALL mealfit_require_tables();
 
 
 -- ---------------------------------------------------------------------------
@@ -185,8 +209,10 @@ CREATE TABLE IF NOT EXISTS menu_alias (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+-- 헬퍼 정리
 -- ---------------------------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS mealfit_require_tables;
 DROP PROCEDURE IF EXISTS mealfit_add_column;
 DROP PROCEDURE IF EXISTS mealfit_drop_column;
 DROP PROCEDURE IF EXISTS mealfit_add_unique;
