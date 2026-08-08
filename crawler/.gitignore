@@ -1,0 +1,26 @@
+# 비밀정보 — 절대 커밋하지 않는다
+.env
+
+# 가상환경
+.venv/
+venv/
+
+# Python 캐시
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 실행 산출물 — 다시 실행하면 생긴다
+logs/
+crawl_results/
+labeling/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 주의: data/ 는 제외하지 않는다.
+# 손으로 만든 정규화 사전(CSV)이라 없으면 파이프라인이 오동작한다.

@@ -52,5 +52,9 @@ logs/
 application.properties
 application.yml
 
+### Uploads ###
+# 인바디 이미지 등 사용자 업로드 파일. 개인정보이므로 저장소에 넣지 않는다.
+uploads/
+
 ### Others ###
 *.class
