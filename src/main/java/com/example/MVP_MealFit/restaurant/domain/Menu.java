@@ -55,6 +55,12 @@ public class Menu {
     @Embedded
     private Nutrition nutrition;
 
+    // 식약처 매칭 결과 (대표식품명 검색용). 매칭 안 된 메뉴는 null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "official_food_code", referencedColumnName = "food_code",
+            insertable = false, updatable = false)
+    private OfficialFood officialFood;
+
     // 해당 음식 종류를 포함하는지 확인
     public boolean hasFoodType(FoodType type) {
         return foodTypes.contains(type);
