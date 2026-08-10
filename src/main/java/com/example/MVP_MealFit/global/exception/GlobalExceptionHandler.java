@@ -1,12 +1,14 @@
 package com.example.MVP_MealFit.global.exception;
 
 import com.example.MVP_MealFit.global.response.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -38,6 +40,9 @@ public class GlobalExceptionHandler {
     // 예상 못한 모든 예외 (마지막 안전망)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnknownException(Exception e) {
+        // 응답에는 원인을 담지 않으므로, 로그를 남기지 않으면 원인 파악이 불가능하다
+        log.error("처리되지 않은 예외 발생", e);
+
         return ResponseEntity
                 .status(ErrorCode.INTERNAL_ERROR.getStatus())
                 .body(ApiResponse.fail(ErrorCode.INTERNAL_ERROR));
