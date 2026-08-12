@@ -1,0 +1,46 @@
+raw_category,cuisine,review,note
+카페,CAFE_DESSERT,,
+"카페,디저트",CAFE_DESSERT,,
+중식당,CHINESE,,
+베이커리,CAFE_DESSERT,,
+햄버거,WESTERN,,
+"육류,고기요리",KOREAN,,
+분식,KOREAN,,결정 D-5: 분식은 cuisine=KOREAN + FoodType.SNACK
+"치킨,닭강정",KOREAN,,한국식 치킨/닭강정 기준
+"족발,보쌈",KOREAN,,
+한식,KOREAN,,
+피자,WESTERN,,
+"초밥,롤",JAPANESE,,
+양식,WESTERN,,
+양꼬치,CHINESE,review,중식 계열로 흔히 분류되나 확정 아님
+일식당,JAPANESE,,
+"칼국수,만두",KOREAN,,
+생선회,JAPANESE,review,한식 횟집일 수도 있어 재검토 권장
+도넛,CAFE_DESSERT,,
+돼지고기구이,KOREAN,,
+바(BAR),WESTERN,review,업종 성격상 ETC가 더 맞을 수 있음
+냉면,KOREAN,,
+브런치,WESTERN,review,카페 계열일 수도 있어 재검토 권장
+케이크전문,CAFE_DESSERT,,
+스페인음식,WESTERN,,
+빙수,CAFE_DESSERT,,
+감자탕,KOREAN,,
+마라탕,CHINESE,,
+브런치카페,CAFE_DESSERT,review,브런치+카페 혼합. 카페 쪽으로 우선 배정
+오리요리,KOREAN,,
+포장마차,KOREAN,,
+이자카야,JAPANESE,,
+호두과자,CAFE_DESSERT,,
+샌드위치,WESTERN,,
+해장국,KOREAN,,
+일본식라면,JAPANESE,,
+"아귀찜,해물찜",KOREAN,,
+낙지요리,KOREAN,,
+국밥,KOREAN,,
+테이크아웃커피,CAFE_DESSERT,,
+국수,KOREAN,,
+와플,CAFE_DESSERT,,
+종합분식,KOREAN,,결정 D-5와 동일 근거
+닭갈비,KOREAN,,
+"백숙,삼계탕",KOREAN,,
+아이스크림,CAFE_DESSERT,,

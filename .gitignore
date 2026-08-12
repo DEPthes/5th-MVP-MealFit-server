@@ -1,4 +1,7 @@
+### Project Files ###
 HELP.md
+
+### Gradle ###
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -28,10 +31,30 @@ out/
 
 ### NetBeans ###
 /nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
 ### VS Code ###
 .vscode/
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+*.log
+logs/
+
+### Environment & Config Files ###
+.env
+application.properties
+application.yml
+
+### Uploads ###
+# 인바디 이미지 등 사용자 업로드 파일. 개인정보이므로 저장소에 넣지 않는다.
+uploads/
+
+### Others ###
+*.class
