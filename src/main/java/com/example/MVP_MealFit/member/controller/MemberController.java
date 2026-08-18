@@ -103,8 +103,7 @@ public class MemberController {
                     description = "존재하지 않는 회원입니다."
             )
     })
-    public ApiResponse<MemberResponse> me(@Parameter(hidden = true)
-                                              @LoginMember Long memberId) {
+    public ApiResponse<MemberResponse> me(@Parameter(hidden = true) @LoginMember Long memberId) {
         MemberResponse response = memberService.getProfile(memberId);
         return ApiResponse.ok(response);
     }
@@ -132,8 +131,7 @@ public class MemberController {
                     description = "존재하지 않는 회원입니다."
             )
     })
-    public ApiResponse<Void> updateMe(@Parameter(hidden = true)
-                                          @LoginMember Long memberId,
+    public ApiResponse<Void> updateMe(@Parameter(hidden = true) @LoginMember Long memberId,
                                       @Valid @RequestBody ProfileUpdateRequest request) {
         memberService.updateProfile(memberId, request);
         return ApiResponse.ok();

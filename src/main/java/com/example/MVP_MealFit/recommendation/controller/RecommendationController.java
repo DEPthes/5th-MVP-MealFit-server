@@ -48,8 +48,7 @@ public class RecommendationController {
             )
     })
     public ApiResponse<Page<RecommendationResponse>> search(
-            @Parameter(hidden = true)
-            @LoginMember Long memberId,
+            @Parameter(hidden = true) @LoginMember Long memberId,
             @ParameterObject RecommendationCondition cond,
             @ParameterObject Pageable p) {
         return ApiResponse.ok(recommendationService.search(memberId, cond, p));

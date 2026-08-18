@@ -39,8 +39,7 @@ public class TrendController {
             )
     })
     public ApiResponse<List<ScoreTrendResponse>> scoreTrend(
-            @Parameter(hidden = true)
-            @LoginMember Long memberId,
+            @Parameter(hidden = true) @LoginMember Long memberId,
 
             @Parameter(
                     description = "확장 조회 여부. false이면 최근 4개, true이면 최대 12개를 반환합니다.",
@@ -68,8 +67,7 @@ public class TrendController {
             )
     })
     public ApiResponse<List<AnalysisHistoryResponse>> analysisHistory(
-            @Parameter(hidden = true)
-            @LoginMember Long memberId,
+            @Parameter(hidden = true) @LoginMember Long memberId,
 
             @Parameter(
                     description = "확장 조회 여부. false이면 최근 4개, true이면 최대 12개를 반환합니다.",

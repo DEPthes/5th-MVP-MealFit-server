@@ -37,8 +37,7 @@ public class ReportController {
             )
     })
     @GetMapping("/me")
-    public ApiResponse<ReportResponse> getReport(@Parameter(hidden = true)
-                                                 @LoginMember Long memberId) {
+    public ApiResponse<ReportResponse> getReport(@Parameter(hidden = true) @LoginMember Long memberId) {
         return ApiResponse.ok(reportService.getReport(memberId));
     }
 }

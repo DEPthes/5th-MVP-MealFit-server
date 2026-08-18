@@ -34,8 +34,7 @@ public class TargetController {
                     description = "회원 또는 최신 인바디 정보를 찾을 수 없음"
             )
     })
-    public ApiResponse<TargetResponse> calculate(@Parameter(hidden = true)
-                                                     @LoginMember Long memberId) {
+    public ApiResponse<TargetResponse> calculate(@Parameter(hidden = true) @LoginMember Long memberId) {
         return ApiResponse.ok(targetService.calculateTarget(memberId));
     }
 
@@ -54,8 +53,7 @@ public class TargetController {
                     description = "목표 영양치가 아직 산출되지 않음"
             )
     })
-    public ApiResponse<TargetResponse> find(@Parameter(hidden = true)
-                                                @LoginMember Long memberId) {
+    public ApiResponse<TargetResponse> find(@Parameter(hidden = true) @LoginMember Long memberId) {
         return ApiResponse.ok(targetService.findTarget(memberId));
     }
 }

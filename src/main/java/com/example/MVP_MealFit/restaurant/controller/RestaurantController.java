@@ -76,8 +76,7 @@ public class RestaurantController {
             )
             @RequestParam(required = false) Cuisine cuisine,
 
-            @ParameterObject
-            Pageable p) {
+            @ParameterObject Pageable p) {
 
         return ApiResponse.ok(
                 restaurantService.searchRestaurants(keyword, cuisine, p)

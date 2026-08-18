@@ -68,8 +68,7 @@ public class InbodyController {
             )
     })
     public ApiResponse<InbodyResponse> register(
-            @Parameter(hidden = true)
-            @LoginMember Long memberId,
+            @Parameter(hidden = true) @LoginMember Long memberId,
 
             @Parameter(
                     description = "인바디 결과지 파일",
@@ -103,8 +102,7 @@ public class InbodyController {
                     description = "인바디 정보를 찾을 수 없습니다."
             )
     })
-    public ApiResponse<InbodyResponse> findLatest(@Parameter(hidden = true)
-                                                      @LoginMember Long memberId) {
+    public ApiResponse<InbodyResponse> findLatest(@Parameter(hidden = true) @LoginMember Long memberId) {
         InbodyResponse response = inbodyService.findLatest(memberId);
 
         return ApiResponse.ok(response);
@@ -130,8 +128,7 @@ public class InbodyController {
                     description = "존재하지 않는 회원입니다."
             )
     })
-    public ApiResponse<List<InbodyHistoryResponse>> findHistory(@Parameter(hidden = true)
-                                                                    @LoginMember Long memberId) {
+    public ApiResponse<List<InbodyHistoryResponse>> findHistory(@Parameter(hidden = true) @LoginMember Long memberId) {
         List<InbodyHistoryResponse> response = inbodyService.findHistory(memberId);
 
         return ApiResponse.ok(response);
