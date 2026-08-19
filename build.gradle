@@ -51,6 +51,9 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
+
 	// 새로운 의존성을 추가한 경우 팀원들이 pull 받을 수 있도록 GitHub에 함께 반영해주세요.
 	// ===============================
 }

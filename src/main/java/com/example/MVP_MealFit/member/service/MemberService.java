@@ -29,6 +29,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public Long signup(SignupRequest req) {
         if (memberRepository.existsByEmail(req.getEmail())) {
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
