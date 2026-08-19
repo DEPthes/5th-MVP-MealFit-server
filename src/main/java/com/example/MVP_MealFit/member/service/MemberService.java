@@ -22,13 +22,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    // 쓰기 메서드 - readOnly=false (기본값)
     public Long signup(SignupRequest req) {
         if (memberRepository.existsByEmail(req.getEmail())) {
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
@@ -50,6 +50,8 @@ public class MemberService {
         return memberRepository.save(member).getId();
     }
 
+    // 읽기 메서드
+    @Transactional(readOnly = true)
     public TokenResponse login(LoginRequest req) {
         Member member = memberRepository.findByEmail(req.getEmail())
                 .orElseThrow(() -> new BusinessException(ErrorCode.UNAUTHORIZED));
@@ -62,22 +64,28 @@ public class MemberService {
 
         return new TokenResponse(accessToken, member.getId(), member.getNickname());
     }
+
+    // 쓰기 메서드 (이미 있음 - 유지)
     @Transactional
     public void updateDiseases(Long memberId, List<Disease> diseases) {
         Member member = getMember(memberId);
         member.updateDiseases(diseases);
     }
 
-    // analysis.ReportService 전용 공개 API — 조회만, Member 엔티티 자체는 노출하지 않음
+    // 읽기 메서드
+    @Transactional(readOnly = true)
     public List<Disease> getDiseases(Long memberId) {
         return getMember(memberId).getDiseases();
     }
 
+    // 읽기 메서드
+    @Transactional(readOnly = true)
     public MemberResponse getProfile(Long memberId) {
         Member member = getMember(memberId);
         return MemberResponse.from(member);
     }
 
+    // 쓰기 메서드 (이미 있음 - 유지)
     @Transactional
     public void updateProfile(Long memberId, ProfileUpdateRequest req) {
         Member member = getMember(memberId);
@@ -87,17 +95,22 @@ public class MemberService {
         }
     }
 
+    // 읽기 메서드
+    @Transactional(readOnly = true)
     public Member getMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
+    // 쓰기 메서드 (이미 있음 - 유지)
     @Transactional
     public void saveNutritionTarget(Long memberId, NutritionTarget target) {
         Member member = getMember(memberId);
         member.assignTarget(target);
     }
 
+    // 읽기 메서드
+    @Transactional(readOnly = true)
     public Optional<NutritionTarget> findNutritionTarget(Long memberId) {
         Member member = getMember(memberId);
         return Optional.ofNullable(member.getNutritionTarget());
