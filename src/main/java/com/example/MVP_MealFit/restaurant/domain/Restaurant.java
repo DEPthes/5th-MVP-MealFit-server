@@ -44,6 +44,14 @@ public class Restaurant extends BaseTimeEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private Cuisine cuisine;
 
+    // 위도 — 크롤러가 지오코딩해 적재. 지오코딩 실패 시 null
+    @Column(insertable = false, updatable = false)
+    private Double latitude;
+
+    // 경도 — 크롤러가 지오코딩해 적재. 지오코딩 실패 시 null
+    @Column(insertable = false, updatable = false)
+    private Double longitude;
+
     // 크롤링 원본 URL
     @Column(nullable = false, unique = true, insertable = false, updatable = false)
     private String sourceUrl;
