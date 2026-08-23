@@ -2,6 +2,7 @@ package com.example.MVP_MealFit.global.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,6 +31,11 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // 브라우저의 사전 확인(preflight) 요청은 인증 없이 통과시킨다.
+                        // 보통 CORS 필터가 먼저 처리하지만, 설정이 어긋났을 때
+                        // 401/403 대신 정상 응답이 나가도록 하는 안전장치.
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         // Swagger
                         .requestMatchers(
                                 "/swagger-ui/**",

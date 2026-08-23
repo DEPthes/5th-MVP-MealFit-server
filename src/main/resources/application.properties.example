@@ -50,3 +50,10 @@ spring.servlet.multipart.max-request-size=10MB
 clova.ocr.invoke-url=
 clova.ocr.secret-key=
 
+# =========================
+# CORS - 프론트엔드 주소 허용 목록 (쉼표 구분, 끝에 / 붙이지 말 것)
+# 값을 비워두면 CorsConfig의 기본 목록(localhost:3000/5173, Vercel 주소)이 쓰인다.
+# 배포 서버에서는 환경변수 APP_CORS_ALLOWED_ORIGINS 로 덮어쓴다.
+# =========================
+# app.cors.allowed-origins=http://localhost:3000,http://localhost:5173
+
