@@ -65,6 +65,19 @@ services:
 
       # --- CORS (프론트 주소 허용 목록) ---
       APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS}
+
+      # --- 메일 (비밀번호 재설정) ---
+      # 이 값들이 없으면 JavaMailSender 빈이 만들어지지 않아 EmailService 주입이 실패하고,
+      # 앱이 기동조차 되지 않는다. 비밀번호 재설정 기능을 쓰지 않더라도 반드시 채워야 한다.
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: "587"
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
+
+      # 재설정 메일에 담길 링크의 앞부분. 프론트 배포 주소를 넣는다.
+      APP_PASSWORD_RESET_URL: ${APP_PASSWORD_RESET_URL}
     volumes:
       # 업로드된 파일이 컨테이너를 지워도 남도록 호스트에 보관
       - ./uploads:/app/uploads

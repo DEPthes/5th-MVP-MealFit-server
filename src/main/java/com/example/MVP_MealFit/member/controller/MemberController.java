@@ -2,18 +2,16 @@ package com.example.MVP_MealFit.member.controller;
 
 import com.example.MVP_MealFit.global.auth.LoginMember;
 import com.example.MVP_MealFit.global.response.ApiResponse;
-import com.example.MVP_MealFit.member.dto.LoginRequest;
-import com.example.MVP_MealFit.member.dto.MemberResponse;
-import com.example.MVP_MealFit.member.dto.ProfileUpdateRequest;
-import com.example.MVP_MealFit.member.dto.SignupRequest;
-import com.example.MVP_MealFit.member.dto.TokenResponse;
+import com.example.MVP_MealFit.member.dto.*;
 import com.example.MVP_MealFit.member.service.MemberService;
+import com.example.MVP_MealFit.member.service.PasswordResetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/members")
+@RequiredArgsConstructor
 @Tag(name = "Member", description = "회원 API")
 public class MemberController {
 
     private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/signup")
     @Operation(
@@ -131,9 +127,69 @@ public class MemberController {
                     description = "존재하지 않는 회원입니다."
             )
     })
+
     public ApiResponse<Void> updateMe(@Parameter(hidden = true) @LoginMember Long memberId,
                                       @Valid @RequestBody ProfileUpdateRequest request) {
         memberService.updateProfile(memberId, request);
+        return ApiResponse.ok();
+    }
+
+    /**
+     * 비밀번호 재설정 이메일 요청
+     */
+    @PostMapping("/password/reset-request")
+    @Operation(
+            summary = "비밀번호 재설정 이메일 요청",
+            description = "가입된 이메일 주소로 비밀번호 재설정 링크를 발송합니다."
+    )
+    @SecurityRequirements
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "비밀번호 재설정 이메일 요청 성공"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "이메일 형식이 올바르지 않습니다."
+            )
+    })
+    public ApiResponse<Void> requestPasswordReset(
+            @Valid @RequestBody PasswordResetRequest request
+    ) {
+        passwordResetService.requestReset(
+                request.getEmail()
+        );
+
+        return ApiResponse.ok();
+    }
+
+    /**
+     * 비밀번호 재설정
+     */
+    @PostMapping("/password/reset")
+    @Operation(
+            summary = "비밀번호 재설정",
+            description = "이메일로 전달받은 재설정 토큰을 검증하고 새 비밀번호로 변경합니다."
+    )
+    @SecurityRequirements
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "비밀번호 재설정 성공"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "유효하지 않거나 만료된 재설정 토큰입니다."
+            )
+    })
+    public ApiResponse<Void> resetPassword(
+            @Valid @RequestBody PasswordResetConfirmRequest request
+    ) {
+        passwordResetService.resetPassword(
+                request.getToken(),
+                request.getNewPassword()
+        );
+
         return ApiResponse.ok();
     }
 }

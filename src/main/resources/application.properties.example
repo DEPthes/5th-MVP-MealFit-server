@@ -57,3 +57,19 @@ clova.ocr.secret-key=
 # =========================
 # app.cors.allowed-origins=http://localhost:3000,http://localhost:5173
 
+# =========================
+# Email SMTP (예시)
+# =========================
+# 주의: .properties 파일은 값 뒤에 # 주석을 붙일 수 없습니다.
+# 그 뒤 텍스트까지 값의 일부로 읽혀서 메일 발송이 깨지므로, 주석은 항상 별도 줄로 씁니다.
+# 아래 두 값은 배포 서버의 환경변수(MAIL_USERNAME / MAIL_PASSWORD)에서 채워집니다.
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=${MAIL_USERNAME}
+spring.mail.password=${MAIL_PASSWORD}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=3000
+spring.mail.properties.mail.smtp.writetimeout=5000
+app.password-reset-url=http://localhost:3000/reset-password
