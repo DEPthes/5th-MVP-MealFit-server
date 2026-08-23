@@ -1,5 +1,6 @@
 package com.example.MVP_MealFit.global.auth;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,13 +12,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,7 +34,9 @@ public class SecurityConfig {
                         // 회원가입 / 로그인
                         .requestMatchers(
                                 "/api/members/signup",
-                                "/api/members/login"
+                                "/api/members/login",
+                                "/api/members/password/reset-request",
+                                "/api/members/password/reset"
                         ).permitAll()
 
                         // 나머지는 인증 필요

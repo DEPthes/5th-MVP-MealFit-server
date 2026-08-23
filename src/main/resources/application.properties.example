@@ -50,3 +50,16 @@ spring.servlet.multipart.max-request-size=10MB
 clova.ocr.invoke-url=
 clova.ocr.secret-key=
 
+# =========================
+# Email STMP (예시)
+# =========================
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=${MAIL_USERNAME}   # 배포 서버의 환경변수에 넣을 이메일 주소
+spring.mail.password=${MAIL_PASSWORD}   # 배포 서버의 환경변수에 넣을 앱 비밀번호
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=3000
+spring.mail.properties.mail.smtp.writetimeout=5000
+app.password-reset-url=http://localhost:3000/reset-password

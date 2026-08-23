@@ -12,6 +12,8 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "MEMBER_001", "이미 가입된 이메일입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER_002", "존재하지 않는 회원입니다."),
 
+    INVALID_PASSWORD_RESET_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER_003", "유효하지 않거나 만료된 비밀번호 재설정 토큰입니다."),
+
     OCR_FAILED(HttpStatus.BAD_GATEWAY, "OCR_001", "OCR 서버 호출에 실패했습니다."),
     OCR_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "OCR_002", "OCR 응답을 해석할 수 없습니다."),
 
