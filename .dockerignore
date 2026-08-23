@@ -1,0 +1,11 @@
+.git
+.github
+.gitignore
+.gitattributes
+build
+.gradle
+crawler
+uploads
+.env
+*.md
+src/main/resources/application.properties

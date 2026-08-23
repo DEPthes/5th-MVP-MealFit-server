@@ -16,6 +16,10 @@ public class RestaurantResponse {
     private Integer distanceToMainGate;
     private Integer distanceToBackGate;
 
+    // 지도 마커·경로 안내용. 좌표를 못 구한 식당은 null
+    private Double latitude;
+    private Double longitude;
+
     public static RestaurantResponse from(Restaurant restaurant) {
 
         return RestaurantResponse.builder()
@@ -25,6 +29,8 @@ public class RestaurantResponse {
                 .cuisine(restaurant.getCuisine())
                 .distanceToMainGate(restaurant.getDistanceToMainGate())
                 .distanceToBackGate(restaurant.getDistanceToBackGate())
+                .latitude(restaurant.getLatitude())
+                .longitude(restaurant.getLongitude())
                 .build();
     }
 }
