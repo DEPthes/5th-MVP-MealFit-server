@@ -42,12 +42,9 @@ public class MemberService {
                 encodedPassword,
                 req.getNickname(),
                 req.getHeight(),
-                req.getTargetWeight(),
                 req.getGender(),
                 req.getBirthDate(),
                 req.getActivityLevel(),
-                req.getExerciseCount(),
-                req.getExerciseIntensity(),
                 req.getGoal()
         );
 
@@ -85,8 +82,7 @@ public class MemberService {
     @Transactional
     public void updateProfile(Long memberId, ProfileUpdateRequest req) {
         Member member = getMember(memberId);
-        member.updateProfile(req.getNickname(), req.getHeight(), req.getTargetWeight(), req.getActivityLevel(),
-                req.getExerciseCount(), req.getExerciseIntensity(), req.getGoal());
+        member.updateProfile(req.getNickname(), req.getHeight(), req.getActivityLevel(), req.getGoal());
         if (req.getDiseases() != null) {
             member.updateDiseases(req.getDiseases());
         }

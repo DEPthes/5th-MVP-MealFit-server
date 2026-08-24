@@ -35,8 +35,6 @@ public class Member extends BaseTimeEntity {
 
     private Double height;
 
-    private Double targetWeight;
-
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -44,12 +42,6 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private ActivityLevel activityLevel;
-
-    @Enumerated(EnumType.STRING)
-    private ExerciseCount exerciseCount;
-
-    @Enumerated(EnumType.STRING)
-    private ExerciseIntensity exerciseIntensity;
 
     @Enumerated(EnumType.STRING)
     private Goal goal;
@@ -66,41 +58,27 @@ public class Member extends BaseTimeEntity {
     protected Member() {
         // JPA 기본 생성자
     }
-    public Member(String email, String password, String nickname, Double height, Double targetWeight,
-                  Gender gender, LocalDate birthDate, ActivityLevel activityLevel,
-                  ExerciseCount exerciseCount, ExerciseIntensity exerciseIntensity, Goal goal) {
+    public Member(String email, String password, String nickname, Double height,
+                  Gender gender, LocalDate birthDate, ActivityLevel activityLevel, Goal goal) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.height = height;
-        this.targetWeight = targetWeight;
         this.gender = gender;
         this.birthDate = birthDate;
         this.activityLevel = activityLevel;
-        this.exerciseCount = exerciseCount;
-        this.exerciseIntensity = exerciseIntensity;
         this.goal = goal;
     }
 
-    public void updateProfile(String nickname, Double height, Double targetWeight, ActivityLevel activityLevel,
-                               ExerciseCount exerciseCount, ExerciseIntensity exerciseIntensity, Goal goal) {
+    public void updateProfile(String nickname, Double height, ActivityLevel activityLevel, Goal goal) {
         if (nickname != null) {
             this.nickname = nickname;
         }
         if (height != null) {
             this.height = height;
         }
-        if (targetWeight != null) {
-            this.targetWeight = targetWeight;
-        }
         if (activityLevel != null) {
             this.activityLevel = activityLevel;
-        }
-        if (exerciseCount != null) {
-            this.exerciseCount = exerciseCount;
-        }
-        if (exerciseIntensity != null) {
-            this.exerciseIntensity = exerciseIntensity;
         }
         if (goal != null) {
             this.goal = goal;
@@ -133,12 +111,9 @@ public class Member extends BaseTimeEntity {
     public String getPassword() { return password; }
     public String getNickname() { return nickname; }
     public Double getHeight() { return height; }
-    public Double getTargetWeight() { return targetWeight; }
     public Gender getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
     public ActivityLevel getActivityLevel() { return activityLevel; }
-    public ExerciseCount getExerciseCount() { return exerciseCount; }
-    public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }
     public NutritionTarget getNutritionTarget() { return nutritionTarget; }
 }

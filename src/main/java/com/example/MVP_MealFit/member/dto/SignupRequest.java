@@ -1,8 +1,6 @@
 package com.example.MVP_MealFit.member.dto;
 
 import com.example.MVP_MealFit.member.domain.ActivityLevel;
-import com.example.MVP_MealFit.member.domain.ExerciseCount;
-import com.example.MVP_MealFit.member.domain.ExerciseIntensity;
 import com.example.MVP_MealFit.member.domain.Gender;
 import com.example.MVP_MealFit.member.domain.Goal;
 import jakarta.validation.constraints.Email;
@@ -27,9 +25,6 @@ public class SignupRequest {
     @Positive
     private Double height;
 
-    @Positive
-    private Double targetWeight;
-
     @NotNull
     private Gender gender;
 
@@ -38,11 +33,6 @@ public class SignupRequest {
 
     @NotNull
     private ActivityLevel activityLevel;
-
-    // 계산 로직에는 아직 연결되지 않아 activityLevel과 달리 선택사항으로 둔다.
-    private ExerciseCount exerciseCount;
-
-    private ExerciseIntensity exerciseIntensity;
 
     @NotNull
     private Goal goal;
@@ -55,11 +45,8 @@ public class SignupRequest {
     public String getPassword() { return password; }
     public String getNickname() { return nickname; }
     public Double getHeight() { return height; }
-    public Double getTargetWeight() { return targetWeight; }
     public Gender getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
     public ActivityLevel getActivityLevel() { return activityLevel; }
-    public ExerciseCount getExerciseCount() { return exerciseCount; }
-    public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }
 }
