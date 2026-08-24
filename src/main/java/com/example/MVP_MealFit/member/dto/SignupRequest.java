@@ -1,6 +1,5 @@
 package com.example.MVP_MealFit.member.dto;
 
-import com.example.MVP_MealFit.member.domain.ActivityLevel;
 import com.example.MVP_MealFit.member.domain.ExerciseCount;
 import com.example.MVP_MealFit.member.domain.ExerciseIntensity;
 import com.example.MVP_MealFit.member.domain.Gender;
@@ -36,10 +35,7 @@ public class SignupRequest {
     @NotNull
     private LocalDate birthDate;
 
-    @NotNull
-    private ActivityLevel activityLevel;
 
-    // 계산 로직에는 아직 연결되지 않아 activityLevel과 달리 선택사항으로 둔다.
     private ExerciseCount exerciseCount;
 
     private ExerciseIntensity exerciseIntensity;
@@ -58,7 +54,6 @@ public class SignupRequest {
     public Double getTargetWeight() { return targetWeight; }
     public Gender getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
-    public ActivityLevel getActivityLevel() { return activityLevel; }
     public ExerciseCount getExerciseCount() { return exerciseCount; }
     public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }

@@ -65,9 +65,9 @@ public class InbodyService {
 
             // 업로드 시점의 목표 단백질 계산 (분석 히스토리용)
             BigDecimal proteinTarget = targetCalculator
-                    .calculate(data.bmr(), member.getActivityLevel(), member.getGoal())
+                    .calculate(data.bmr(), member.getExerciseCount(),
+                            member.getExerciseIntensity(), member.getGoal())
                     .getProtein();
-
 
             // 엔티티 생성
             Inbody inbody = Inbody.builder()

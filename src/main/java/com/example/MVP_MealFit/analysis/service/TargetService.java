@@ -31,7 +31,8 @@ public class TargetService {
 
         Nutrition nutrition = targetCalculator.calculate(
                 inbody.getBmr(),
-                member.getActivityLevel(),
+                member.getExerciseCount(),
+                member.getExerciseIntensity(),
                 member.getGoal()
         );
 

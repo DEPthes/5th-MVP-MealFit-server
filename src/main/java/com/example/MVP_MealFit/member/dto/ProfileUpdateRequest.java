@@ -1,6 +1,5 @@
 package com.example.MVP_MealFit.member.dto;
 
-import com.example.MVP_MealFit.member.domain.ActivityLevel;
 import com.example.MVP_MealFit.member.domain.Disease;
 import com.example.MVP_MealFit.member.domain.ExerciseCount;
 import com.example.MVP_MealFit.member.domain.ExerciseIntensity;
@@ -19,8 +18,6 @@ public class ProfileUpdateRequest {
     @Positive
     private Double targetWeight;
 
-    private ActivityLevel activityLevel;
-
     private ExerciseCount exerciseCount;
 
     private ExerciseIntensity exerciseIntensity;
@@ -34,7 +31,6 @@ public class ProfileUpdateRequest {
     public String getNickname() { return nickname; }
     public Double getHeight() { return height; }
     public Double getTargetWeight() { return targetWeight; }
-    public ActivityLevel getActivityLevel() { return activityLevel; }
     public ExerciseCount getExerciseCount() { return exerciseCount; }
     public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }
