@@ -87,8 +87,10 @@ services:
       # 재설정 메일에 담길 링크의 앞부분. 프론트 배포 주소를 넣는다.
       APP_PASSWORD_RESET_URL: ${APP_PASSWORD_RESET_URL}
     volumes:
-      # 업로드된 파일이 컨테이너를 지워도 남도록 호스트에 보관
-      - ./uploads:/app/uploads
+      # 업로드된 파일이 컨테이너를 지워도 남도록 도커 관리 볼륨에 보관.
+      # 호스트 폴더 바인드(./uploads)는 컨테이너 안 spring 유저와 소유권이
+      # 어긋나 권한 오류가 났던 문제가 있어 도커 볼륨으로 전환함.
+      - uploads-data:/app/uploads
     ports:
       # 이 VM 밖(다른 호스트의 Nginx Proxy Manager)에서 <이 VM의 LAN IP>:8080으로
       # 붙을 수 있게 호스트에 노출한다. NPM에서 Proxy Host를 이 포트로 연결한다.
@@ -98,6 +100,7 @@ services:
 
 volumes:
   mysql-data:
+  uploads-data:
 
 networks:
   mealfit:
