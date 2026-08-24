@@ -14,7 +14,6 @@ public class MemberResponse {
     private final Double targetWeight;
     private final Gender gender;
     private final LocalDate birthDate;
-    private final ActivityLevel activityLevel;
     private final ExerciseCount exerciseCount;
     private final ExerciseIntensity exerciseIntensity;
     private final Goal goal;
@@ -22,7 +21,7 @@ public class MemberResponse {
     private List<Disease> diseases;
 
     private MemberResponse(Long memberId, String email, String nickname, Double height, Double targetWeight,
-                           Gender gender, LocalDate birthDate, ActivityLevel activityLevel,
+                           Gender gender, LocalDate birthDate,
                            ExerciseCount exerciseCount, ExerciseIntensity exerciseIntensity,
                            Goal goal, boolean hasTarget, List<Disease> diseases) {
         this.memberId = memberId;
@@ -32,7 +31,6 @@ public class MemberResponse {
         this.targetWeight = targetWeight;
         this.gender = gender;
         this.birthDate = birthDate;
-        this.activityLevel = activityLevel;
         this.exerciseCount = exerciseCount;
         this.exerciseIntensity = exerciseIntensity;
         this.goal = goal;
@@ -49,7 +47,6 @@ public class MemberResponse {
                 member.getTargetWeight(),
                 member.getGender(),
                 member.getBirthDate(),
-                member.getActivityLevel(),
                 member.getExerciseCount(),
                 member.getExerciseIntensity(),
                 member.getGoal(),
@@ -65,7 +62,6 @@ public class MemberResponse {
     public Double getTargetWeight() { return targetWeight; }
     public Gender getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
-    public ActivityLevel getActivityLevel() { return activityLevel; }
     public ExerciseCount getExerciseCount() { return exerciseCount; }
     public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }

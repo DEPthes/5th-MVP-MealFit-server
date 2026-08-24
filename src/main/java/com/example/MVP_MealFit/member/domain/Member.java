@@ -42,8 +42,6 @@ public class Member extends BaseTimeEntity {
 
     private LocalDate birthDate;
 
-    @Enumerated(EnumType.STRING)
-    private ActivityLevel activityLevel;
 
     @Enumerated(EnumType.STRING)
     private ExerciseCount exerciseCount;
@@ -67,7 +65,7 @@ public class Member extends BaseTimeEntity {
         // JPA 기본 생성자
     }
     public Member(String email, String password, String nickname, Double height, Double targetWeight,
-                  Gender gender, LocalDate birthDate, ActivityLevel activityLevel,
+                  Gender gender, LocalDate birthDate,
                   ExerciseCount exerciseCount, ExerciseIntensity exerciseIntensity, Goal goal) {
         this.email = email;
         this.password = password;
@@ -76,13 +74,12 @@ public class Member extends BaseTimeEntity {
         this.targetWeight = targetWeight;
         this.gender = gender;
         this.birthDate = birthDate;
-        this.activityLevel = activityLevel;
         this.exerciseCount = exerciseCount;
         this.exerciseIntensity = exerciseIntensity;
         this.goal = goal;
     }
 
-    public void updateProfile(String nickname, Double height, Double targetWeight, ActivityLevel activityLevel,
+    public void updateProfile(String nickname, Double height, Double targetWeight,
                                ExerciseCount exerciseCount, ExerciseIntensity exerciseIntensity, Goal goal) {
         if (nickname != null) {
             this.nickname = nickname;
@@ -92,9 +89,6 @@ public class Member extends BaseTimeEntity {
         }
         if (targetWeight != null) {
             this.targetWeight = targetWeight;
-        }
-        if (activityLevel != null) {
-            this.activityLevel = activityLevel;
         }
         if (exerciseCount != null) {
             this.exerciseCount = exerciseCount;
@@ -136,7 +130,6 @@ public class Member extends BaseTimeEntity {
     public Double getTargetWeight() { return targetWeight; }
     public Gender getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
-    public ActivityLevel getActivityLevel() { return activityLevel; }
     public ExerciseCount getExerciseCount() { return exerciseCount; }
     public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
     public Goal getGoal() { return goal; }
