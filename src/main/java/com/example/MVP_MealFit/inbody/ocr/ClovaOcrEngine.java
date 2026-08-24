@@ -3,6 +3,7 @@ package com.example.MVP_MealFit.inbody.ocr;
 import com.example.MVP_MealFit.global.exception.BusinessException;
 import com.example.MVP_MealFit.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class ClovaOcrEngine {
 
@@ -80,6 +82,10 @@ public class ClovaOcrEngine {
             // OCR 응답(JSON)을 Response DTO로 변환
             return objectMapper.readValue(response, ClovaOcrResponse.class);
         } catch (Exception e) {
+            // 원인을 남기지 않으면 502만 보이고 로그에는 아무 흔적이 없어 디버깅이 불가능하다.
+            // (GlobalExceptionHandler는 BusinessException을 로그로 남기지 않는다)
+            log.error("CLOVA OCR 호출 실패. filename={}, size={}bytes",
+                    file.getOriginalFilename(), file.getSize(), e);
             throw new BusinessException(ErrorCode.OCR_FAILED);
         }
     }
