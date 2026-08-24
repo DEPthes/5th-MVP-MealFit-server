@@ -38,8 +38,6 @@ public class Member extends BaseTimeEntity {
 
     private Double height;
 
-    // 건강 데이터 입력 시 필수 입력값으로 NULL을 허용하지 않음
-    @Column(nullable = false)
     private Double targetWeight;
 
     @Enumerated(EnumType.STRING)
