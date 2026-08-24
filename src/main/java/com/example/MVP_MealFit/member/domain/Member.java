@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
+@Getter
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +38,14 @@ public class Member extends BaseTimeEntity {
 
     private Double height;
 
+    // 건강 데이터 입력 시 필수 입력값으로 NULL을 허용하지 않음
+    @Column(nullable = false)
     private Double targetWeight;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private LocalDate birthDate;
-
 
     @Enumerated(EnumType.STRING)
     private ExerciseCount exerciseCount;
@@ -121,17 +125,4 @@ public class Member extends BaseTimeEntity {
     public List<Disease> getDiseases() {
         return Collections.unmodifiableList(diseases);
     }
-
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getNickname() { return nickname; }
-    public Double getHeight() { return height; }
-    public Double getTargetWeight() { return targetWeight; }
-    public Gender getGender() { return gender; }
-    public LocalDate getBirthDate() { return birthDate; }
-    public ExerciseCount getExerciseCount() { return exerciseCount; }
-    public ExerciseIntensity getExerciseIntensity() { return exerciseIntensity; }
-    public Goal getGoal() { return goal; }
-    public NutritionTarget getNutritionTarget() { return nutritionTarget; }
 }
