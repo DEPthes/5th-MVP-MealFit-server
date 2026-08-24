@@ -70,6 +70,25 @@ public enum NutritionFilter {
             BigDecimal fat = n == null ? null : n.getFat();
             return fat != null && fat.compareTo(BigDecimal.valueOf(3)) <= 0;
         }
+    },
+    // 역류성식도염 안전
+    // 현재 보유한 영양정보를 기준으로 지방과 나트륨을 함께 제한한다.
+    // 지방 <= 5g/100g, 나트륨 <= 400mg/100g
+    REFLUX_ESOPHAGITIS_SAFE("역류성식도염 안전") {
+        @Override
+        public boolean matches(Nutrition n) {
+            if (n == null) {
+                return false;
+            }
+
+            BigDecimal fat = n.getFat();
+            BigDecimal sodium = n.getSodium();
+
+            return fat != null
+                    && sodium != null
+                    && fat.compareTo(BigDecimal.valueOf(5)) <= 0
+                    && sodium.compareTo(BigDecimal.valueOf(400)) <= 0;
+        }
     };
 
     private final String displayName;
