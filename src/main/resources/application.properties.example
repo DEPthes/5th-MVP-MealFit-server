@@ -41,8 +41,11 @@ spring.jpa.properties.hibernate.format_sql=true
 # ===========================
 # Multipart File (예시)
 # ===========================
+# file.max-size-bytes(앱 자체 검증)보다 이쪽이 앞단이라, 여기서 막히면
+# FileValidator까지 가지도 못하고 500이 난다.
 spring.servlet.multipart.max-file-size=10MB
-spring.servlet.multipart.max-request-size=10MB
+# 파일 10MB + 멀티파트 경계·헤더 오버헤드가 더해지므로 요청 전체 한도는 조금 더 크게 잡는다.
+spring.servlet.multipart.max-request-size=12MB
 
 # =========================
 # NAVER CLOVA API (예시)
