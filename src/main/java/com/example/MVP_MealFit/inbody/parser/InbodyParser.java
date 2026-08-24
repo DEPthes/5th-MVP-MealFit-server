@@ -5,6 +5,7 @@ import com.example.MVP_MealFit.global.exception.ErrorCode;
 import com.example.MVP_MealFit.inbody.ocr.ClovaOcrEngine;
 import com.example.MVP_MealFit.inbody.ocr.ClovaOcrResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class InbodyParser {
 
@@ -41,25 +43,43 @@ public class InbodyParser {
         // OCR 응답에서 인식된 문자열 목록 추출
         List<ClovaOcrResponse.Field> fields = extractFields(response);
 
-        // 필요한 데이터 추출
-        BigDecimal weight = extractWeight(fields);
-        BigDecimal muscleMass = extractMuscleMass(fields);
-        BigDecimal bodyFatPercentage = extractBodyFatPercentage(fields);
-        Integer bmr = extractBmr(fields);
-        Integer visceralFatLevel = extractVisceralFatLevel(fields);
-        Integer inbodyScore = extractInbodyScore(fields);
-        Optional<LocalDate> measuredAt = extractDate(fields);
+        try {
+            // 필요한 데이터 추출
+            BigDecimal weight = extractWeight(fields);
+            BigDecimal muscleMass = extractMuscleMass(fields);
+            BigDecimal bodyFatPercentage = extractBodyFatPercentage(fields);
+            Integer bmr = extractBmr(fields);
+            Integer visceralFatLevel = extractVisceralFatLevel(fields);
+            Integer inbodyScore = extractInbodyScore(fields);
+            Optional<LocalDate> measuredAt = extractDate(fields);
 
-        // DTO 변환
-        return new InbodyData(
-                weight,
-                muscleMass,
-                bodyFatPercentage,
-                bmr,
-                visceralFatLevel,
-                inbodyScore,
-                measuredAt
-        );
+            // DTO 변환
+            return new InbodyData(
+                    weight,
+                    muscleMass,
+                    bodyFatPercentage,
+                    bmr,
+                    visceralFatLevel,
+                    inbodyScore,
+                    measuredAt
+            );
+        } catch (BusinessException e) {
+            // 추출은 라벨 기준 픽셀 오프셋(예: 오른쪽 250~600, 아래 0~50)에 의존한다.
+            // 사진의 해상도·여백·각도가 튜닝 당시와 다르면 라벨은 찾아도 옆 숫자를 못 집는다.
+            // 어떤 텍스트가 어느 좌표에서 인식됐는지 남겨두지 않으면 원인 파악이 불가능하다.
+            log.error("인바디 파싱 실패. 인식된 필드 {}건: {}", fields.size(), describe(fields), e);
+            throw e;
+        }
+    }
+
+    // 파싱 실패 원인 추적용. 인식된 텍스트와 중심좌표를 함께 남긴다 —
+    // 라벨을 찾았는지, 숫자가 오프셋 범위 밖에 있는지 판단하려면 좌표가 필요하다.
+    private String describe(List<ClovaOcrResponse.Field> fields) {
+        return fields.stream()
+                .filter(field -> field.getInferText() != null)
+                .map(field -> "%s(%.0f,%.0f)".formatted(
+                        field.getInferText(), field.centerX(), field.centerY()))
+                .collect(java.util.stream.Collectors.joining(" "));
     }
 
     // OCR 응답의 모든 Field를 하나의 리스트로 변환
